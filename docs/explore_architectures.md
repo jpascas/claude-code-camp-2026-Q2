@@ -1,6 +1,6 @@
-1. An agent file with referenced files eg. AGENT.md, @~/docs/\*.MD
+## 1. An agent file with referenced files eg. AGENT.md, @~/docs/\*.MD
 
-## Observations
+### Technical Observations
 
 - The coding harness created temp bash and then python script to manage the socket connection.
 - I t made mistakes on the login sequence, including putting the username as Helloworld (the password), it required several attempts and apparently change on timing the commands, but it eventually succeeded. Ideally this should be solved in a deterministic way instead of wasting tokens just by try and error.
@@ -19,7 +19,7 @@
 - The room and map details are saved correctly to data/world.md, and current player state to data/player.md.
 - It appears that Sonnet and Haiku were able to achieve the goal to find the bakery and list the menu, but Sonnet did it faster in a more efficient way.
 
-## Technical Conclusion
+### Technical Conclusion
 
 - Even when the coding harness was able to complete the task, regarding efficiency A coding harness alone might not be a good fit for operating the MUD. Possible there are other ways to accomplish it faster, more reliably and using less tokens.
 
