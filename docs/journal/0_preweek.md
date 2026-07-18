@@ -31,13 +31,13 @@ Examples of Agent Architecture that scale with effort:
 
 ## Technical Observations
 
-- The plain again approach, Agent.md, created bash and python script to try to connect and interact with the MUD, and it failed many times and was unreliable. A deterministic approach to solve this was required.
+- The plain agent approach, Agent.md, created bash and python script to try to connect and interact with the MUD, and it failed many times and was unreliable. A deterministic approach to solve this was required.
 
 - The skill and subagents approach that used a script to manage a telnet session performed better, it addressed the issue with the Agent.md file. But improvements could be made to allow it to address the challenges of the game.
 
 - Observed that the memory store on the markdown files that store things like the location of rooms and navigation between them was obscure (and i wonder if how it store it its deterministic or not), so a specialized data store might be needed for this. eg:
 
-```
+```bash
   **Route to Newbie Zone from start (Tournament Yard)**: north (Bar) ->
   west (Entrance Hall) -> north (Main Street) -> west (Main St 2) ->
   west (Market Square) -> north (Temple Square) -> north (Temple of
@@ -45,6 +45,8 @@ Examples of Agent Architecture that scale with effort:
   Altar) -> north (Great Field) -> east (structure) -> north (Entrance
   to Newbie Zone) -> north (Beginning of Passage).
 ```
+
+- Observed that in the plain agent approach, the model selection (Haiku vs Sonnet), influenced the outcomes. (Haiku was stuck locating the bakery litle step by step, but Sonnet was able to do it more efficiently in a single session)
 
 ## Technical Conclusions
 
