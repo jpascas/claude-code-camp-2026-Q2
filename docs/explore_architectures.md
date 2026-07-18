@@ -27,3 +27,33 @@
 
 - A specialized agent loop, potentially using an MCP server connected to the MUD SDK, would provide better reliability, visibility, and token
   efficiency.
+
+## 2. Agent Skills driven by main agent eg. ~/.skills
+
+A very common way to drive specific functionality is via Agent Skills which is an open format for agents adopted by coding harnesses and agent SDKs.
+
+### Technical Observations
+
+By using the official Claude createor skill, i was able to create our own skill sucessfully that could connect and play the MUD.
+
+For simple goals like "practice kick at the guild" is was able to complete it.
+It stopped when task is not possible.
+
+For more advance and unceirtain task like "defeat the massive minotaur in the newbie zone", it was able to find the newbie zone and also the possible location of the minotaur (behind a locked door that is opened after killing a guard, but it showed a warning stating that you need level 7). The model was able to recognize that that is the possible location of the minotaur even when it did not locate it explicitly. But it required many attemps in which it gave up.
+
+A hint was provided to help it locally the room, it keep trying until it found one location with high chances to have the minotaur.
+
+A human player could had been taking every chance to level up before exploring the whole thing for the minotaur.
+
+It did not update the world and player memory files in real time.
+
+There is risk in this implementation that if claude code is updated the agentic loop it drives would be affected.
+
+Memory markdown files could grown to large, since specially the world info is significantly large.
+
+### Technical Conclusions
+
+Agents Skills work for very well for some task, but it needed to maintain significant state (world and player info). And there is no way currently to know how efficient, token wise, is this approach.
+A better approach could be a custom Agentic Loop to run the requests more independantly.
+
+It will be a good idea to define Player Persona, based on modes like: Risk Mode, Exploration Mode and so on.

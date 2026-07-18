@@ -1,0 +1,42 @@
+{
+  "skill_name": "play-mud",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Connect to the MUD running on localhost:4000 as the dummy player (dummy/helloworld) and give me a status report: current stats (HP/level/exp), where the character currently is, and what's immediately around them.",
+      "expected_output": "Logs in successfully (handling either a fresh login or an already-connected 'reconnecting' state) and reports accurate HP/level/exp from `score` plus the current room and exits from `look`/`exits`, without needing multiple failed login attempts.",
+      "files": [],
+      "expectations": [
+        "The agent successfully logged in as dummy without getting stuck in a retry loop on the username/password/menu sequence",
+        "The reported HP, level, and experience match what the `score` command actually returned",
+        "The reported location and exits match what `look`/`exits` actually returned",
+        "The MUD session was left in a clean/disconnected state at the end (no dangling connection)"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Log into the MUD as dummy and level up a bit: explore a little from the current location, find a monster that's a safe fight for a low-level character, and if it's safe, kill it for some experience. Tell me what happened and the character's state afterward.",
+      "expected_output": "Uses `consider` (or equivalent difficulty check) before attacking, only engages a fight it assessed as winnable, and reports an accurate before/after state (HP, exp gained, any loot) based on real command output rather than invented narrative.",
+      "files": [],
+      "expectations": [
+        "The agent checked a monster's difficulty (e.g. via `consider`) before attacking it",
+        "The agent did not attack a monster it had reason to believe was dangerous for a level 1 character",
+        "The reported outcome (win/loss, exp gained, HP remaining) is consistent with the actual game output rather than fabricated",
+        "The character was left alive and in a stable state at the end (not mid-combat, not disconnected while still fighting)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I want the dummy character to work toward two goals over time: reach level 7, and defeat the graveyard ghoul. Record those as active goals, then log in and make some progress toward them this session.",
+      "expected_output": "Reads data/player.md and data/world.md before acting, adds both goals to the Active Goals list in data/player.md if not already present, plays a session that makes real progress toward at least one goal, and leaves data/player.md updated (current state snapshot and/or journal entry) reflecting what actually happened rather than what was planned.",
+      "files": [],
+      "expectations": [
+        "Both stated goals ('reach level 7' and 'defeat the graveyard ghoul') were written into the Active Goals section of data/player.md, not just mentioned in the response",
+        "The agent read the existing contents of data/player.md and data/world.md before taking game actions, rather than starting blind or overwriting prior content",
+        "In-game actions taken (exploring, considering, fighting) plausibly serve one of the stated goals rather than being unrelated wandering",
+        "data/player.md was updated by the end of the session (state snapshot and/or journal entry) with information consistent with the actual game output, not fabricated progress",
+        "The character was left alive and in a stable state at the end (not mid-combat, not disconnected while still fighting)"
+      ]
+    }
+  ]
+}
